@@ -1,7 +1,9 @@
 from datetime import date
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
+from pandas import read_excel
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from pandas.io import excel
 
 env = Environment(
     loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
@@ -25,12 +27,20 @@ def get_suffix(age: int) -> str:
     return "лет"
 
 
-winery_age = get_age(1920)
-suffix = get_suffix(winery_age)
+def get_wines(filename: str) -> list[dict]:
+    """Get wines from excel file."""
+    wines_df = read_excel(filename)
+    return wines_df.to_dict(orient="records")
+
+
+winery_age: int = get_age(1920)
+suffix: str = get_suffix(winery_age)
+wines: list[dict] = get_wines("wine.xlsx")
 
 rendered_page = template.render(
     winery_age=winery_age,
     suffix=suffix,
+    wines=wines,
 )
 
 with open("index.html", "w", encoding="utf8") as file:
