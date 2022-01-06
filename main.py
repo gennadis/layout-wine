@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 WINERY_ESTABLISHED_YEAR = 1920
-DRINKS_FILEPATH = "wine3.xlsx"
+DRINKS_FILEPATH = "example.xlsx"
 
 
 def count_years_since(year_established: int) -> str:
