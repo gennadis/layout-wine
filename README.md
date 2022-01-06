@@ -29,3 +29,7 @@ python main.py
 
 5. Open
 Open site in browser [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+6. This site can be filled with another drinks if needed
+- Open ```example.xlsx``` and fill it accordingly
+- Repeat steps 4 and 5
