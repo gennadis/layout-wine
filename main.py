@@ -30,25 +30,27 @@ def get_suffix(age: int) -> str:
 
 
 def get_drinks(filename: str) -> dict:
-    """Get wines from excel file."""
+    """Get drinks from excel file
+    and return them divided by categories"""
+
     df = read_excel(filename, na_values=None, keep_default_na=False)
-    beverages = df.to_dict(orient="records")
-    products = defaultdict(list)
+    drinks = df.to_dict(orient="records")
+    categories = defaultdict(list)
 
-    for beverage in beverages:
-        products[beverage["Категория"]].append(beverage)
+    for drink in drinks:
+        categories[drink["Категория"]].append(drink)
 
-    return products
+    return categories
 
 
 winery_age: int = get_age(1920)
 suffix: str = get_suffix(winery_age)
-drinks: dict = get_drinks("wine2.xlsx")
+categories: dict = get_drinks("wine2.xlsx")
 
 rendered_page = template.render(
     winery_age=winery_age,
     suffix=suffix,
-    drinks=drinks,
+    categories=categories,
 )
 
 with open("index.html", "w", encoding="utf8") as file:

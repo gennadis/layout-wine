@@ -118,19 +118,23 @@
           </div>
         </div>
         <div class="row">
+          {% for category, drinks in categories.items() %}
+          <div class="col-12 section-title text-center mb-5">
+            <h2 class="d-block">{{category}}</h2>
+          </div>
           {% for drink in drinks %}
           <div class="col-lg-4 mb-5 col-md-6">
             <div class="wine_v_1 text-center pb-4 pt-5">
-              <img src="images/{{drink.Картинка}}" alt=" Image" class="img-fluid">
+              <img src=images/{{drink.Картинка}} alt="Image" class="img-fluid">
               <div>
                 <h3 class="heading mt-3 mb-3 text-dark">{{drink.Название}}</h3>
                 <p>
-                  Сорт винограда - {{drink.Сорт}}<br />
-                  <span class="price">{{drink.Цена | int}} р.</span>
+                  <span class="price">{{drink.Цена}}</span>
                 </p>
               </div>
             </div>
           </div>
+          {% endfor %}
           {% endfor %}
         </div>
       </div>
@@ -158,7 +162,8 @@
               аристократичный мужчина, в белой дорогой рубашке и брюках,
               хорошей обуви, статный, знающий чего он хочет, успешный, но имеющий в своей душе такие струны,
               с которыми может быть созвучна истинная женская трепетность и беззащитность.
-              Он может быть незаметен, он не бросается в глаза, но от того, что он есть, все вокруг становится на свои
+              Он может быть незаметен, он не бросается в глаза, но от того, что он есть, все вокруг становится на
+              свои
               места.&rdquo;</p>
             <p class="small text-primary">&mdash; Марина Ли</p>
           </blockquote>
@@ -173,7 +178,8 @@
           </blockquote>
           <blockquote class="testimony">
             <img src="assets/person_3.jpg" alt="Фото">
-            <p>&ldquo;Вина Шардоне хорошо подходят к нейтральным по остроте мясным, рыбным блюдам, блюдам из птицы,
+            <p>&ldquo;Вина Шардоне хорошо подходят к нейтральным по остроте мясным, рыбным блюдам, блюдам из
+              птицы,
               сырам и фруктам (яблоко, апельсин и груша). Вино мне понравилось, голова на утро от него не болела.
               Рекомендую.&rdquo;</p>
             <p class="small text-primary">&mdash; Андрей Власов</p>
@@ -205,7 +211,8 @@
               <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 Copyright &copy;
-                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+                made
                 with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com"
                   target="_blank">Colorlib</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
