@@ -1,5 +1,5 @@
 from datetime import date
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 
@@ -40,7 +40,9 @@ def get_drinks(filename: str) -> dict:
     for drink in drinks:
         categories[drink["Категория"]].append(drink)
 
-    return categories
+    sorted_categories = OrderedDict(sorted(categories.items()))
+
+    return sorted_categories
 
 
 winery_age: int = get_age(1920)
