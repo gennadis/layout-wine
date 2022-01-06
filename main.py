@@ -7,7 +7,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
 WINERY_ESTABLISHED_YEAR = 1920
-DRINKS_FILENAME = "wine3.xlsx"
+DRINKS_FILEPATH = "wine3.xlsx"
 
 
 env = Environment(
@@ -16,11 +16,11 @@ env = Environment(
 template = env.get_template("template.html")
 
 
-def count_years_since(established: int) -> str:
+def count_years_since(year_established: int) -> str:
     """Get winery age in years since year opened
     with [год, года, лет] suffix"""
 
-    age = str(date.today().year - established)
+    age = str(date.today().year - year_established)
     suffix = "лет"
 
     if age.endswith("1"):
@@ -31,25 +31,25 @@ def count_years_since(established: int) -> str:
     return f"{age} {suffix}"
 
 
-def get_drinks(filename: str) -> dict:
+def get_drinks(filepath: str) -> dict:
     """Get drinks from excel file
     and return them divided by categories"""
 
-    df = read_excel(filename, na_values=None, keep_default_na=False)
+    df = read_excel(filepath, na_values=None, keep_default_na=False)
     drinks = df.to_dict(orient="records")
-    categories = defaultdict(list)
+    drinks_by_categories = defaultdict(list)
 
     for drink in drinks:
-        categories[drink["Категория"]].append(drink)
+        drinks_by_categories[drink["Категория"]].append(drink)
 
-    sorted_categories = OrderedDict(sorted(categories.items()))
+    sorted_categories = OrderedDict(sorted(drinks_by_categories.items()))
 
     return sorted_categories
 
 
 rendered_page = template.render(
-    winery_age=count_years_since(WINERY_ESTABLISHED),
-    categories=get_drinks(DRINKS_FILENAME),
+    winery_age=count_years_since(WINERY_ESTABLISHED_YEAR),
+    categories=get_drinks(DRINKS_FILEPATH),
 )
 
 with open("index.html", "w", encoding="utf8") as file:
