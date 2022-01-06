@@ -10,12 +10,6 @@ WINERY_ESTABLISHED_YEAR = 1920
 DRINKS_FILEPATH = "wine3.xlsx"
 
 
-env = Environment(
-    loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
-)
-template = env.get_template("template.html")
-
-
 def count_years_since(year_established: int) -> str:
     """Get winery age in years since year opened
     with [год, года, лет] suffix"""
@@ -42,19 +36,28 @@ def get_drinks(filepath: str) -> dict:
     for drink in drinks:
         drinks_by_categories[drink["Категория"]].append(drink)
 
-    sorted_categories = OrderedDict(sorted(drinks_by_categories.items()))
+    sorted_drinks_by_categories = OrderedDict(sorted(drinks_by_categories.items()))
 
-    return sorted_categories
-
-
-rendered_page = template.render(
-    winery_age=count_years_since(WINERY_ESTABLISHED_YEAR),
-    categories=get_drinks(DRINKS_FILEPATH),
-)
-
-with open("index.html", "w", encoding="utf8") as file:
-    file.write(rendered_page)
+    return sorted_drinks_by_categories
 
 
-server = HTTPServer(("0.0.0.0", 8000), SimpleHTTPRequestHandler)
-server.serve_forever()
+def main():
+    env = Environment(
+        loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
+    )
+    template = env.get_template("template.html")
+
+    rendered_page = template.render(
+        winery_age=count_years_since(WINERY_ESTABLISHED_YEAR),
+        categories=get_drinks(DRINKS_FILEPATH),
+    )
+
+    with open("index.html", "w", encoding="utf8") as file:
+        file.write(rendered_page)
+
+    server = HTTPServer(("0.0.0.0", 8000), SimpleHTTPRequestHandler)
+    server.serve_forever()
+
+
+if __name__ == "__main__":
+    main()
