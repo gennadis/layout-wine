@@ -2,31 +2,33 @@ from datetime import date
 from collections import defaultdict, OrderedDict
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-
 from pandas import read_excel
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-from pandas.io import excel
+
+
+WINERY_ESTABLISHED = 1920
+DRINKS_FILENAME = "wine3.xlsx"
+
 
 env = Environment(
     loader=FileSystemLoader("."), autoescape=select_autoescape(["html", "xml"])
 )
-
 template = env.get_template("template.html")
 
 
-def get_age(year_opened: int) -> int:
-    """Get winery age in years since year opened."""
-    age = date.today().year - year_opened
-    return age
+def count_years_since(established: int) -> str:
+    """Get winery age in years since year opened
+    with [год, года, лет] suffix"""
 
+    age = str(date.today().year - established)
+    suffix = "лет"
 
-def get_suffix(age: int) -> str:
-    """Get год / года / лет suffix."""
-    if str(age).endswith("1"):
-        return "год"
-    if str(age).endswith(("2", "3", "4")):
-        return "года"
-    return "лет"
+    if age.endswith("1"):
+        suffix = "год"
+    elif age.endswith(("2", "3", "4")):
+        suffix = "года"
+
+    return f"{age} {suffix}"
 
 
 def get_drinks(filename: str) -> dict:
@@ -45,14 +47,9 @@ def get_drinks(filename: str) -> dict:
     return sorted_categories
 
 
-winery_age: int = get_age(1920)
-suffix: str = get_suffix(winery_age)
-categories: dict = get_drinks("wine3.xlsx")
-
 rendered_page = template.render(
-    winery_age=winery_age,
-    suffix=suffix,
-    categories=categories,
+    winery_age=count_years_since(WINERY_ESTABLISHED),
+    categories=get_drinks(DRINKS_FILENAME),
 )
 
 with open("index.html", "w", encoding="utf8") as file:
