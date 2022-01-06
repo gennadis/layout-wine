@@ -6,7 +6,7 @@ from pandas import read_excel
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
-WINERY_ESTABLISHED = 1920
+WINERY_ESTABLISHED_YEAR = 1920
 DRINKS_FILENAME = "wine3.xlsx"
 
 
