@@ -45,7 +45,7 @@ def get_drinks(filename: str) -> dict:
 
 winery_age: int = get_age(1920)
 suffix: str = get_suffix(winery_age)
-categories: dict = get_drinks("wine2.xlsx")
+categories: dict = get_drinks("wine3.xlsx")
 
 rendered_page = template.render(
     winery_age=winery_age,
